@@ -41,6 +41,15 @@ public final class StatusUpdate implements java.io.Serializable {
     private long[] mediaIds;
     private boolean autoPopulateReplyMetadata;
     private String attachmentUrl = null;
+    private long[] excludeReplyUserIds;
+
+    public long[] getExcludeReplyUserIds() {
+        return excludeReplyUserIds;
+    }
+
+    public void setExcludeReplyUserIds(long[] excludeReplyUserIds) {
+        this.excludeReplyUserIds = excludeReplyUserIds;
+    }
 
     public StatusUpdate(String status) {
         this.status = status;
@@ -246,6 +255,9 @@ public final class StatusUpdate implements java.io.Serializable {
 
         }
         appendParameter("place_id", placeId, params);
+        if (this.excludeReplyUserIds != null && this.excludeReplyUserIds.length >= 1) {
+            params.add(new HttpParameter("exclude_reply_user_ids", StringUtil.join(this.excludeReplyUserIds)));
+        }
         if (!displayCoordinates) {
             appendParameter("display_coordinates", "false", params);
         }
